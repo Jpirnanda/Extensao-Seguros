@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Preencher Cadastro</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                background-color: #f9f9f9;
+                width: 300px;
+            }
+
+            #content {
+                font-size: 16px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 20px;
+                box-sizing: border-box;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            li {
+                padding: 10px 0px 10px 0px;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .name-container {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                align-items: flex-start;
+                flex-wrap: nowrap;
+                padding: 10px;
+                background-color: #007bff;
+                color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                position: relative;
+                transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+                /* Transições suaves */
+            }
+
+            .name-container:hover {
+                background-color: #0056b3;
+                /* Cor de fundo mais escura */
+                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+                /* Sombra mais profunda */
+                transform: translateY(-5px);
+                /* Leve elevação */
+            }
+
+            .name-container:active {
+                transform: translateY(2px);
+                /* Afundamento ao clicar */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                /* Sombra reduzida para simular afundamento */
+            }
+
+            .name-container {
+                flex-grow: 1;
+                padding-right: 10px;
+            }
+
+            .time-ago {
+                font-size: 0.75em;
+            }
+
+            .icon-container {
+                display: flex;
+                align-items: center;
+                padding: 0;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 12px
+            }
+
+            .icon {
+                cursor: pointer;
+                font-size: 1.2em;
+            }
+
+            .icon-status:hover {
+                animation: shake 0.3s;
+                cursor: pointer;
+            }
+
+
+            .filter-buttons {
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                /* Distribui os itens igualmente */
+                align-items: center;
+                /* Centraliza verticalmente */
+                border-bottom: 1px solid #ccc;
+                /* Adiciona uma linha divisória na parte inferior */
+            }
+
+            .filter-button {
+                flex: 1;
+                /* Divide o espaço igualmente entre os botões */
+                padding: 5px 10px;
+                cursor: pointer;
+                border: none;
+                background-color: transparent;
+                /* Remove o fundo */
+                color: #007bff;
+                /* Cor do texto */
+                transition: color 0.3s;
+            }
+
+            .filter-button:not(:last-child) {
+                border-right: 1px solid #ccc;
+                /* Adiciona a linha vertical entre os botões */
+            }
+
+            .filter-button:hover {
+                color: #0056b3;
+                /* Cor do texto no hover */
+            }
+
+
+
+
+            @keyframes shake {
+
+                0%,
+                100% {
+                    transform: translateX(0);
+                }
+
+                40% {
+                    transform: translateX(2px);
+                }
+
+                80% {
+                    transform: translateX(-2px);
+                }
+            }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    </head>
+
+    <body>
+        <input type="text" id="searchBox" placeholder="Pesquisar nomes...">
+        <div class="filter-buttons">
+            <button id="showAvailable" class="filter-button">Disponíveis</button>
+            <button id="showAwaiting" class="filter-button">Em Aguardo</button>
+            <button id="showArchived" class="filter-button">Arquivados</button>
+        </div>
+        <div id="content"></div>
+        <script src="popup.js"></script>
+    </body>
+
+</html>

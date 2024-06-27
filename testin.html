@@ -1,0 +1,69 @@
+let lastClientCount = 0
+
+async function checkForNewClients() {
+try {
+const response = await fetch(
+'https://sheets.googleapis.com/v4/spreadsheets/17QfIGiuhb-G9SFhxQMeINdHWIorw5LBHf0dkxQ5vwTs/values/Seguro/?alt=json&key=AIzaSyAa2ls3JkyzujXofxxTqjxVMRivGMgcArQ',
+)
+const data = await response.json()
+const currentClientCount = data.values.length
+console.log(`Número atual de clientes: ${currentClientCount}`) // Adicionado para depuração
+if (currentClientCount > lastClientCount) {
+const newClients = currentClientCount - lastClientCount
+lastClientCount = currentClientCount
+console.log(`Criando notificação para ${newClients} novo(s) cliente(s).`) // Adicionado para depuração
+chrome.notifications.create(
+{
+type: 'basic',
+iconUrl: 'icon-128.png',
+title: 'Novo Cliente!',
+message: `Você tem ${newClients} novo(s) cliente(s)!`,
+},
+(notificationId) => {
+if (chrome.runtime.lastError) {
+console.error(
+'Erro ao criar notificação:',
+chrome.runtime.lastError,
+)
+} else {
+console.log('Notificação criada com ID:', notificationId)
+}
+},
+)
+}
+} catch (error) {
+console.error('Erro ao buscar o JSON:', error)
+}
+}
+
+// Verificar a cada 1 minuto
+chrome.alarms.create('checkClients', { periodInMinutes: 1 })
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+if (alarm.name === 'checkClients') {
+checkForNewClients()
+}
+})
+
+// Inicializar a contagem de clientes na primeira execução
+checkForNewClients().then(() => {
+console.log(`Contagem inicial de clientes: ${lastClientCount}`) // Adicionado para depuração
+})
+
+// Código de teste de notificação
+console.log('Criando notificação de teste...') // Log adicionado
+chrome.notifications.create(
+{
+type: 'basic',
+iconUrl: 'icon-128.png',
+title: 'Teste de Notificação',
+message: 'Se você está vendo isso, as notificações estão funcionando.',
+},
+(notificationId) => {
+if (chrome.runtime.lastError) {
+console.error('Erro ao criar notificação:', chrome.runtime.lastError)
+} else {
+console.log('Notificação de teste criada com ID:', notificationId)
+}
+},
+)
